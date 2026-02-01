@@ -8,12 +8,13 @@ def initialize_session_state():
         "skills": [],
         "industry": None
     }
-    st.session_state.defaults["level"] = None
-    st.session_state.defaults["company"] = None
-    st.session_state.defaults["yoe"] = 0
-    st.session_state.defaults["skills"] = []
-    st.session_state.defaults["industry"] = None
-    
+    # st.session_state.defaults["level"] = None
+    # st.session_state.defaults["company"] = None
+    # st.session_state.defaults["yoe"] = 0
+    # st.session_state.defaults["skills"] = []
+    # st.session_state.defaults["industry"] = None
+    if "warnings_flagged" not in st.session_state:
+        st.session_state.warnings_flagged = False
     for key, value in st.session_state.defaults.items():
         if key not in st.session_state:
             st.session_state[key] = value
@@ -27,23 +28,40 @@ def render_title():
     
 def render_form(roles:list, levels:list, skills:list, industries:list):
     with st.form(key="role_info_form"): 
-        st.session_state["role"] = st.selectbox("Enter The Role", roles)
-        st.session_state["level"] = st.selectbox("Enter Role Level:", levels)
-        st.session_state["company"]= st.text_input("Enter Company: ")
-        st.session_state["yoe"] = st.text_input("Enter The YOE (Year(s) of Experience) Required (e.i 1, 3, 5):")
-        st.session_state["skills"] = st.multiselect("Skills/Tech required", skills)
-        st.session_state["industry"] = st.selectbox("Industry", industries)
+        role: str = st.selectbox("Enter The Role", roles, index = roles.index(st.session_state["role"]) if st.session_state["role"] else 0)
+        level: str = st.selectbox("Enter Role Level:", levels, index = levels.index(st.session_state["level"]) if st.session_state["level"] else 0)
+        company: str = st.text_input("Enter Company: ", value=st.session_state.get("company", ""))
+        yoe: int  = st.number_input("Enter The YOE (Year(s) of Experience) Required (e.i 1, 3, 5):", min_value = 0, max_value= 20, format="%i", value=st.session_state.get("yoe", 0))
+        skill :list  = st.multiselect("Skills/Tech required", skills, default=st.session_state.get("skills", []))
+        industry: str = st.selectbox("Industry", industries, index = industries.index(st.session_state["industry"]) if st.session_state["industry"] else 0)
         
         submit_button = st.form_submit_button(label="Begin")
-        valid_inputs, list_of_warnings = validate_user_input(st.session_state["role"], st.session_state["level"], st.session_state["company"], st.session_state["yoe"], st.session_state.defaults["skills"], st.session_state["industry"])
+        
         if submit_button:
-            if not valid_inputs:
-                st.warning("Ensure\"Role\" and \"Level\" have been filled and \"YOE\" is valid (non negative)")
+            valid_inputs, list_of_warnings = validate_user_input(role, level , company, skill, industry)
+            # st.write(valid_inputs) 
+            if valid_inputs and st.session_state.warnings_flagged:
+                st.session_state["role"] = role
+                st.session_state["level"] = level
+                st.session_state["company"] = company
+                st.session_state["yoe"] = yoe
+                st.session_state["skills"] = skill
+                st.session_state["industry"] = industry
+                st.switch_page("pages/2_interview_questions.py")
+            elif valid_inputs and not st.session_state.warnings_flagged:
+                st.session_state["role"] = role
+                st.session_state["level"] = level
+                st.session_state["company"] = company
+                st.session_state["yoe"] = yoe
+                st.session_state["skills"] = skill
+                st.session_state["industry"] = industry
+                st.warning("No company provied, prep will be less company focused, press begin to continue")   
+                st.session_state.warnings_flagged = True
             else:
-                st.write("Valid inputs ready to move on!")
-            st.switch_page("pages/2_interview_questions.py")
+                st.warning("Ensure \"Role\", \"Level\", and \"YOE\" have been filled.")
+                # st.rerun()
 
-def validate_user_input(role: str, level: str, company: str, yoe: int, skills: list, industry: str):
+def validate_user_input(role: str, level: str, company: str, skills: list, industry: str):
     # validates the users inputs and returns a boolean indicating if valid or not and a string to give user warning
     # 
     # #
@@ -56,11 +74,8 @@ def validate_user_input(role: str, level: str, company: str, yoe: int, skills: l
     if not level:
         warnings.append("Missing level")
         is_valid = False
-    if not company:
-        warnings.append("Missing company")
-    if  len(yoe) == 0 or int(yoe) < 0:
-        warnings.append("Invalid YOE")
-        is_valid = False
+    if not company or len(company) < 3:
+        warnings.append("Invalid Company")
     if not skills:
         warnings.append("Missing skills")
         is_valid = False

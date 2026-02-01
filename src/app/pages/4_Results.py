@@ -7,7 +7,8 @@ def initialize_states():
     if "feedback" not in st.session_state:
         st.session_state.feedback = ""
     if "llm_feedback" not in st.session_state:
-        st.session_state.llm_feedback = gem.get_llm_feedback(st.session_state.answer_dict,st.session_state.user_information)
+        with st.spinner("Generating questions tailored to the provided position..."):
+            st.session_state.llm_feedback = gem.get_llm_feedback(st.session_state.answer_dict,st.session_state.user_information)
 with st.container(key = "results_title"):
     st.title("See How You Did", text_alignment= "center")
     st.subheader("AI Feedback Based correctness, clarity, and effectiveness", text_alignment="center")

@@ -65,7 +65,7 @@ def get_llm_feedback(user_answers:dict, role_info:dict) -> dict:
     response = client.models.generate_content(
         model="gemini-2.5-flash-lite",
         contents = f"""
-        Assess the users interview answers for a {role_info["level"]} {role_info["role"]} in the {role_info["industry"]} sector. Explanation ad tonality should be like you are a senior technical hiring manager.
+        Assess the users interview answers for a {role_info["level"]} {role_info["role"]} in the {role_info["industry"]} sector. Explanation and tonality should be professional
         Output Guideline:
         - start immediately with the feedback
         - no introduction required

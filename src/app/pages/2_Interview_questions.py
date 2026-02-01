@@ -53,10 +53,9 @@ def render_text_area():
             
 def render_see_results_page():
     st.subheader("SEE YOUR RESULTS", text_alignment="center")
-    st.write("your answers: ", st.session_state.answer_dict)
     see_results_btn = st.button("See")
     if see_results_btn:
-        st.switch_page("pages/3_loading_results.py")          
+        st.switch_page("pages/4_Results.py")          
         
 if __name__ == "__main__":
     initialize_session_states()
