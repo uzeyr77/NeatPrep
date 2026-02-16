@@ -58,7 +58,7 @@ def generate_interview_question() -> dict:
 
 
 def load_questions():
-    with st.spinner("🤖 Generating your personalized interview questions..."):
+    with st.spinner("Generating your personalized interview questions..."):
         st.session_state.interview_question_dict = generate_interview_question()
 # func to get the total questions incase it changes over time (less magic numbers)
 
@@ -77,13 +77,12 @@ def get_current_question():
     return st.session_state.interview_question_dict.get(question_key, "Could not get question") # returns the question or displays the message
 
 def render_progress_bar():
-    current_q = st.session_state.question_index
-    
-    progress_val = (current_q-1)/3 if 3 > 0 else 0
-    st.progress(
-        progress_val,
-        text=f"Question {current_q} of 3"
-    )
+    """Show which feedback we're on"""
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        progress = st.session_state.question_index / 3
+        st.progress(progress, text=f"Question {st.session_state.question_index} of 3")
+    st.write("")
 
 def increment_question_index():
     st.session_state.question_index += 1
@@ -143,14 +142,18 @@ def render_question_form():
                     st.session_state.last_saved_question = st.session_state.question_index
                     st.rerun() # is this necessary
                 else:
-                    st.success(f"Answer {st.session_state.last_saved_question} Saved!")
+                    # st.success(f"Answer {st.session_state.last_saved_question} Saved!")
                     st.write("display results page")
                     st.session_state.feedback_ready = False  # Flag to trigger loading
                     # instead of flipping right away, have a button that says "move on to feedback"
-                    
-                    st.switch_page("pages/3_loading_results.py")
-    st.write("")
-    # add navigation buttons here
+    
+    if st.session_state.question_index == 3:    
+        col1, col2, col3 = st.columns([1,1,1])
+        with col2:
+            if st.button("View Results", type = "primary", use_container_width=True):
+                st.switch_page("pages/3_loading_results.py")
+        st.write("")
+        # add navigation buttons here
         
         
             

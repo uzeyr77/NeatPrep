@@ -26,11 +26,15 @@ class InterviewQuestions(BaseModel):
     question_1: str
     question_2: str
     question_3: str
-
+class FeedBackItem(BaseModel):
+    strengths: str
+    weaknesses: str
+    improvement_plan: str
+    model_answer: str
 class UserFeedBack(BaseModel):
-    feedback_1: str
-    feedback_2: str
-    feedback_3: str
+    feedback_1: FeedBackItem
+    feedback_2: FeedBackItem
+    feedback_3: FeedBackItem
 
 def get_llm_questions(role_info:dict) -> dict: 
     
@@ -88,6 +92,28 @@ def get_llm_feedback(user_answers:dict, role_info:dict) -> dict:
         
         Goal: Write 3 feedback sections, one for each of the users answer and make sure to highlight each of the evaluation guidelines so the individual gets a thorough understanding of where improvements should be made.
         
+        Output ONLY valid JSON in this EXACT structure (no other text):
+        {{
+            "feedback_1": {{
+                "strengths": "your detailed strengths analysis here",
+                "weaknesses": "your detailed weaknesses analysis here", 
+                "improvement_plan": "your 2-3 actionable steps here",
+                "model_answer": "your 2-3 paragraph ideal answer here"
+            }},
+            "feedback_2": {{
+                "strengths": "...",
+                "weaknesses": "...",
+                "improvement_plan": "...",
+                "model_answer": "..."
+            }},
+            "feedback_3": {{
+                "strengths": "...",
+                "weaknesses": "...",
+                "improvement_plan": "...",
+                "model_answer": "..."
+            }}
+        }}
+        
         """,  config = {
             "response_mime_type": "application/json",
             "response_schema": UserFeedBack.model_json_schema(),
@@ -107,4 +133,9 @@ if __name__ == "__main__":
         "industry": "fintech",
         "yoe": 0
     }
-    print(get_llm_questions(info_dict))
+    user_answers = {
+        "answer_1": "The first step before anything would be to go ahead and role back the last code that was pushed just incase it introduced new problems. The second step I would take is look at the classes that deal with the checkout system. What data structures and/or databases are beiing used to store and retrieve the data. Often times it could be optimized by using a different data structure or reviewing the algorithms to understand what is slowing things down.",
+        "answer_2": "",
+        "answer_3": ""
+    }
+    print(get_llm_feedback(user_answers,info_dict))

@@ -6,14 +6,14 @@ def initialize_states():
         st.session_state.feedback_number = 1
     
     if "llm_feedback" not in st.session_state:
-        with st.spinner("🤖 Analyzing your answers and generating personalized feedback..."):
+        with st.spinner("Analyzing your answers and generating personalized feedback..."):
             st.session_state.llm_feedback = gem.get_llm_feedback(
                 st.session_state.answer_dict,
                 st.session_state.user_information
             )
 
 def render_header():
-    st.title("📊 Your Interview Results", anchor=False)
+    st.title("Your Interview Results", anchor=False)
     st.markdown("---")
     st.caption("AI-powered feedback on correctness, clarity, and effectiveness")
     st.write("")  # Spacing
@@ -28,7 +28,7 @@ def render_progress():
 
 def render_feedback():
     current_num = st.session_state.feedback_number
-    
+    # st.write(st.session_state.llm_feedback)
     if current_num <= 3:
         render_progress()
         
@@ -40,7 +40,7 @@ def render_feedback():
         original_question = st.session_state.interview_question_dict.get(question_key, "Question not found")
         user_answer = st.session_state.answer_dict.get(answer_key, "No answer provided")
         feedback = st.session_state.llm_feedback.get(feedback_key, {})
-        
+        # feedback = "idk"
         # Display Question
         with st.container():
             st.markdown(f"### Question {current_num}")
@@ -65,7 +65,7 @@ def render_feedback():
         # Strengths
         if "strengths" in feedback:
             with st.container(border=True):
-                st.markdown("**✅ Strengths**")
+                st.markdown("**Strengths**")
                 st.success(feedback["strengths"])
         
         st.write("")
@@ -73,7 +73,7 @@ def render_feedback():
         # Weaknesses
         if "weaknesses" in feedback:
             with st.container(border=True):
-                st.markdown("**⚠️ Areas for Improvement**")
+                st.markdown("**Areas for Improvement**")
                 st.warning(feedback["weaknesses"])
         
         st.write("")
@@ -81,14 +81,14 @@ def render_feedback():
         # Next steps to improve
         if "improvement_plan" in feedback:
             with st.container(border=True):
-                st.markdown("**🎯 Action Items**")
+                st.markdown("**Actionable Steps**")
                 st.info(feedback["improvement_plan"])
         
         st.write("")
         
         # Displaying model answers
         if "model_answer" in feedback:
-            with st.expander("🌟 See Model Answer", expanded=False):
+            with st.expander("See Model Answer", expanded=False):
                 st.markdown("**Ideal Response:**")
                 st.write(feedback["model_answer"])
         
@@ -109,7 +109,7 @@ def render_feedback():
     
     else:
         # Completion Screen        
-        st.markdown("### 🎉 Review Complete!")
+        st.markdown("###Review Complete!")
         st.write("")
         
         with st.container(border=True):
