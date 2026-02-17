@@ -1,6 +1,11 @@
 import streamlit as st
 from services import ai_client as gem
-
+with st.sidebar:
+    # st.markdown("---")
+    if st.button("Reset and Start over", use_container_width=True): 
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.switch_page("pages/1_Information_input.py")
 def initialize_states():
     if "feedback_number" not in st.session_state: # keeps track of the question number
         st.session_state.feedback_number = 1

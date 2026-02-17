@@ -1,7 +1,67 @@
 import streamlit as st
 from services import ai_client as gem
-with st.container(key="page_title"):
-    st.title("Answer the following Interview Prep Questions", text_alignment="center")    
+import math 
+def initialize_session_states():
+    #cleaner
+    default_values = {
+        "question_index": 1,
+        "answer_dict": {},
+        "saved_questions": [],
+        "visited_questions": []
+        }
+    if "interview_question_dict" not in st.session_state:
+        with st.spinner("Generating your personalized interview questions..."):
+            st.session_state.interview_question_dict = generate_interview_question()
+         # this already assigns the dictionary internally
+        if st.session_state.interview_question_dict is None:  # ← Changed from interview_questions
+            st.error("Failed to generate questions. Please try again.")
+            st.stop()
+    if "show_success" not in st.session_state:
+        st.session_state.show_success = False
+    if "last_saved_question" not in st.session_state:
+        st.session_state.last_saved_question = 1
+    # initalize the defaults as session states 
+    for key, value in default_values.items():
+        if key not in st.session_state: # if the session state variable has not been intialized 
+            st.session_state[key] = value # set the value of the session state variables to the defualt values 
+    # st.write(type(st.session_state.interview_question_dict))
+    # st.write(st.session_state.invterview_question_dict)
+
+
+with st.sidebar:
+    # st.markdown("---")
+    if st.button("Reset and Start over", use_container_width=True): 
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.switch_page("pages/1_Information_input.py")
+# track of answered questions 
+def render_sidebar_progress():
+    with st.sidebar:
+        total_questions = 3
+        saved_count = len(st.session_state.get("saved_questions", []))
+        
+        for i in range(1,total_questions+1):
+            is_saved = i in st.session_state.get("saved_questions", [])
+            is_visited = i in st.session_state.get("visited_questions", [])
+            is_current = i == st.session_state.get("question_index", 1)
+            
+            
+            if is_saved:
+                with st.container(border = True):
+                    st.markdown(f"✅ **Q{i}** is Answered")
+            elif is_visited or is_current:
+                with st.container(border=True):
+                    st.markdown(f"🔵 **Q{i}** is In Progress")
+            else:
+                with st.container(border=True):
+                    st.markdown(f"⚪ **Q{i}** Pending")
+        st.write("")
+        st.caption(f"{saved_count} of {total_questions} completed")
+
+    with st.container(key="page_title"):
+        st.title("Answer the following Interview Prep Questions", text_alignment="center")   
+        # add progress bar here 
+
 
 def check_prereqs():    # going to check for required data 
     required = {"role", "level", "skills"}
@@ -13,23 +73,6 @@ def check_prereqs():    # going to check for required data
             if back_btn:
                 st.switch_page("1_information_input.py")
     
-def initialize_session_states():
-    #cleaner
-    default_values = {
-        "question_index": 1,
-        "answer_dict": {},
-    }
-    if "interview_question_dict" not in st.session_state:
-        load_questions() # this already assigns the dictionary internally
-    if "show_success" not in st.session_state:
-        st.session_state.show_success = False
-    if "last_saved_question" not in st.session_state:
-        st.session_state.last_saved_answer = 1
-    # initalize the defaults as session states 
-    for key, value in default_values.items():
-        if key not in st.session_state: # if the session state variable has not been intialized 
-            st.session_state[key] = value # set the value of the session state variables to the defualt values 
-
 def get_user_information():
     # from existing data of information input page   
     st.session_state.user_information = {
@@ -78,10 +121,15 @@ def get_current_question():
 
 def render_progress_bar():
     """Show which feedback we're on"""
+    current_q = st.session_state.question_index
+    total_q = 3
+    if current_q > total_q:
+        current_q = total_q
+    
+    progress = (current_q)/ total_q
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        progress = st.session_state.question_index / 3
-        st.progress(progress, text=f"Question {st.session_state.question_index} of 3")
+        st.progress(progress, text=f"Question {current_q} of {total_q}")
     st.write("")
 
 def increment_question_index():
@@ -91,85 +139,84 @@ def get_user_answers():
 def save_user_answers():
     st.session_state.answer_dict[f"Question {st.session_state.question_index}"] = st.session_state.answer
     st.session_state.question_index += 1
-    # increment_question_index()
-# using input parameters from the user, fetch the ai generated questions
 def render_question_form():
-    # get information needed an put in local variables
-    # get existing answer to put on display (e.i incase user clicks back it should contain their last answer)
-    # unique form for each question
-    # display the data 
-    # text area for answer (place holder is any prev existing answer)
-    # set up logic for submission
     
     render_progress_bar()
     
     current_q_index = st.session_state["question_index"]
     question = get_current_question()
-    answer_key = f"question_{current_q_index}"
+    answer_key = f"answer_{current_q_index}"
+    if current_q_index not in st.session_state.visited_questions:
+        st.session_state.visited_questions.append(current_q_index)
     # st.write(current_q_key)
     existing_answer = st.session_state.answer_dict.get(answer_key, "") # get the existing answer for current question otherwise return ""
     
     if st.session_state.show_success:
-        st.success(f"Answer {st.session_state.question_index - 1} Saved!") # the number should be lagging 1 behind
+        st.success(f"Answer {st.session_state.question_index} Saved!") # the number should be lagging 1 behind
         st.session_state.show_success = False
     
+    st.markdown(f"### Question {current_q_index}")
     st.write(question)
+    st.write("")
     with st.form(key=f"user_answer_question_{st.session_state.question_index}", enter_to_submit=True):  # each form has own form
         answer = st.text_area(
             "Your answer:", 
             value = existing_answer, # the place holder value is the existsing answer for the current question
-            height=200
+            height=200,
+            key = f"answer_{current_q_index}"
             )
         
-        submit_btn = st.form_submit_button(
-            
-            "Submit and continue " if current_q_index < get_total_questions() else "Submit final Answer",
-            type = "primary"
+        # nav buttons
+        col1, col2, col3 = st.columns([1,1,1])
+        
+        #back button
+        with col1:
+            back_btn = st.form_submit_button(
+                "← Back",
+                disabled= (current_q_index == 1), # disabled if we are still in the first question
+                type = "primary"
             )
-        if submit_btn:
+        with col2:
+            save_btn = st.form_submit_button(
+                "Save",
+                type="primary"
+            )
+        with col3:
+            next_btn = st.form_submit_button(
+                "Next →" if current_q_index < get_total_questions() else "Finish",
+                # disabled = (current_q_index == 3), # cannot go next if already on the last question
+                type="primary"
+            )
+        
             
-            if not answer.strip(): # if the answer is empty after removing all white space
-                st.warning("Answer question before submitting")
-            else:
-                
+        if back_btn:
+            st.session_state.question_index -= 1 # go back to the prev question
+            st.rerun() # rerun
+        if save_btn:
+            if answer.strip():
                 st.session_state.answer_dict[f"answer_{current_q_index}"] = answer
-                
-                st.success(f"Answer {current_q_index} saved")
-                
+                st.session_state.show_success = True
+                st.session_state.last_saved_question = current_q_index
+                if current_q_index not in st.session_state.saved_questions:
+                    st.session_state.saved_questions.append(current_q_index)
+                    st.rerun()
+            else:
+                st.warning("Skip if cannot answer question")
+        if next_btn:
                 if current_q_index < get_total_questions():
                     st.session_state.question_index += 1
-                    st.session_state.show_success = True
-                    st.session_state.last_saved_question = st.session_state.question_index
-                    st.rerun() # is this necessary
+                    st.rerun()
                 else:
-                    # st.success(f"Answer {st.session_state.last_saved_question} Saved!")
                     st.write("display results page")
                     st.session_state.feedback_ready = False  # Flag to trigger loading
-                    # instead of flipping right away, have a button that says "move on to feedback"
-    
-    if st.session_state.question_index == 3:    
-        col1, col2, col3 = st.columns([1,1,1])
-        with col2:
-            if st.button("View Results", type = "primary", use_container_width=True):
-                st.switch_page("pages/3_loading_results.py")
-        st.write("")
-        # add navigation buttons here
-        
-        
-            
-            
-# def render_see_results_page():
-#     st.subheader("SEE YOUR RESULTS", text_alignment="center")
-#     see_results_btn = st.button("See")
-#     if see_results_btn:
-#         st.switch_page("pages/3_loading_results.py")          
-        
-        
+                    #should be redirected to the next page
+         
 def main():
     # check for user prerequisite info
     check_prereqs()
     # initialize session states
     initialize_session_states()
+    render_sidebar_progress()
     # load the questions
     # load_questions()
     # render the question and form if current < total_questions, else check results button

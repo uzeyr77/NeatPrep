@@ -29,6 +29,7 @@ def render_title():
     
 def render_form(roles:list, levels:list, skills:list, industries:list):
     with st.form(key="role_info_form"): 
+        
         role: str = st.selectbox("Enter The Role", roles, index = roles.index(st.session_state["role"]) if st.session_state["role"] else 0)
         level: str = st.selectbox("Enter Position:", levels, index = levels.index(st.session_state["level"]) if st.session_state["level"] else 0)
         company: str = st.text_input("Enter Company: ", value=st.session_state.get("company", ""))
