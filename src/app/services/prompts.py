@@ -39,8 +39,8 @@ FEEDBACK_GENERATION_PROMPT = """
         4. Model Answer: Write the "Ideal Answer." This should be a sophisticated, 1-2 paragraph response that a top-tier candidate would give. It must include the specific {skills} mentioned and address the {industry} scenario
         
         Input Data:
-        Questions: {llm_questions}
-        Answer from user: {user_answers}
+        Questions: {llm_question}
+        Answer from user: {user_answer}
         
         Goal: Write 3 feedback sections, one for each of the users answer and make sure to highlight each of the evaluation guidelines so the individual gets a thorough understanding of where improvements should be made.
         

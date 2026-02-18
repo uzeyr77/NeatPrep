@@ -56,10 +56,9 @@ def render_form(roles:list, levels:list, skills:list, industries:list):
                     st.session_state.warning_acknowledged = True
                 
                 else: # everything is good
-                    st.write("good to switch pages")
                     st.write(st.session_state.warning_acknowledged)
                     st.write(st.session_state.warning_exists)
-                    # st.switch_page("pages/2_interview_questions.py")
+                    st.switch_page("pages/2_interview_questions.py")
             else:
                 st.warning("Ensure \"Role\", \"Level\", and \"Skills\" have been filled.")
                 # st.rerun()

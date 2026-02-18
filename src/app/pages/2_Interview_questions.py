@@ -1,6 +1,5 @@
 import streamlit as st
 from services import ai_client as gem
-import math 
 def initialize_session_states():
     #cleaner
     default_values = {
@@ -166,26 +165,30 @@ def render_question_form():
             key = f"answer_{current_q_index}"
             )
         
+        st.write("")
         # nav buttons
-        col1, col2, col3 = st.columns([1,1,1])
+        col1, col2, col3 = st.columns([1,1,1], gap="large")
         
         #back button
         with col1:
             back_btn = st.form_submit_button(
                 "← Back",
                 disabled= (current_q_index == 1), # disabled if we are still in the first question
-                type = "primary"
+                type = "primary",
+                use_container_width=True
             )
         with col2:
             save_btn = st.form_submit_button(
                 "Save",
-                type="primary"
+                type="primary",
+                use_container_width=True
             )
         with col3:
             next_btn = st.form_submit_button(
                 "Next →" if current_q_index < get_total_questions() else "Finish",
                 # disabled = (current_q_index == 3), # cannot go next if already on the last question
-                type="primary"
+                type="primary",
+                use_container_width=True
             )
         
             
@@ -207,9 +210,8 @@ def render_question_form():
                     st.session_state.question_index += 1
                     st.rerun()
                 else:
-                    st.write("display results page")
                     st.session_state.feedback_ready = False  # Flag to trigger loading
-                    #should be redirected to the next page
+                    st.switch_page("pages/3_loading_results.py")
          
 def main():
     # check for user prerequisite info
