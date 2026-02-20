@@ -3,7 +3,6 @@ import streamlit as st
 # Custom CSS with purple theme
 st.markdown("""
 <style>
-    /* Main container styling */
     [data-testid="stForm"] {
         background: #1f1f1f;
         border-radius: 12px;
@@ -11,7 +10,6 @@ st.markdown("""
         border: 1px solid #3f3f3f;
     }
     
-    /* Title container */
     .main-header {
         background: linear-gradient(135deg, rgba(192, 132, 252, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
         border: 1px solid #c084fc;
@@ -20,13 +18,11 @@ st.markdown("""
         margin-bottom: 2rem;
     }
     
-    /* Form labels */
     [data-testid="stForm"] label {
         color: #c084fc !important;
         font-weight: 600;
     }
     
-    /* Submit button */
     .stButton > button[kind="formSubmit"] {
         width: 100%;
         height: 3rem;
@@ -43,8 +39,7 @@ st.markdown("""
         transform: scale(1.02);
         box-shadow: 0 8px 24px rgba(192, 132, 252, 0.4);
     }
-    
-    /* Input fields */
+
     input, textarea, [data-baseweb="select"] {
         border-radius: 8px !important;
         border: 1px solid #3f3f3f !important;
@@ -56,24 +51,20 @@ st.markdown("""
         box-shadow: 0 0 0 1px #c084fc !important;
     }
     
-    /* Multiselect pills */
     [data-baseweb="tag"] {
         background-color: #c084fc !important;
         color: white !important;
     }
     
-    /* Warning messages */
     [data-testid="stAlert"] {
         background-color: rgba(192, 132, 252, 0.1) !important;
         border-left: 4px solid #c084fc !important;
     }
     
-    /* Selectbox dropdown */
     [data-baseweb="popover"] {
         background-color: #1f1f1f !important;
     }
     
-    /* Number input */
     [data-testid="stNumberInput"] input {
         text-align: left !important;
     }

@@ -21,7 +21,7 @@ def render_header():
     st.title("Your Interview Results", anchor=False)
     st.markdown("---")
     st.caption("AI-powered feedback on correctness, clarity, and effectiveness")
-    st.write("")  # Spacing
+    st.write("") 
     
 def render_progress():
     """Show which feedback we're on"""
@@ -33,11 +33,9 @@ def render_progress():
 
 def render_feedback():
     current_num = st.session_state.feedback_number
-    # st.write(st.session_state.llm_feedback)
     if current_num <= 3:
         render_progress()
         
-        # Get the original question and user's answer
         question_key = f"question_{current_num}"
         answer_key = f"answer_{current_num}"
         feedback_key = f"feedback_{current_num}"
@@ -45,8 +43,6 @@ def render_feedback():
         original_question = st.session_state.interview_question_dict.get(question_key, "Question not found")
         user_answer = st.session_state.answer_dict.get(answer_key, "No answer provided")
         feedback = st.session_state.llm_feedback.get(feedback_key, {})
-        # feedback = "idk"
-        # Display Question
         with st.container():
             st.markdown(f"### Question {current_num}")
             with st.expander("📝 View Question", expanded=False):
@@ -54,7 +50,6 @@ def render_feedback():
         
         st.write("")
         
-        # Display User's Answer
         with st.container():
             st.markdown("#### Your Answer:")
             with st.container(border=True):
@@ -64,7 +59,6 @@ def render_feedback():
         st.markdown("---")
         st.write("")
         
-        # Display Feedback Sections
         st.markdown("### 💡 Detailed Feedback")
         
         # Strengths

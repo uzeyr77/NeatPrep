@@ -21,14 +21,11 @@ def initialize_session_states():
         st.session_state.last_saved_question = 1
     # initalize the defaults as session states 
     for key, value in default_values.items():
-        if key not in st.session_state: # if the session state variable has not been intialized 
-            st.session_state[key] = value # set the value of the session state variables to the defualt values 
-    # st.write(type(st.session_state.interview_question_dict))
-    # st.write(st.session_state.invterview_question_dict)
+        if key not in st.session_state:
+            st.session_state[key] = value
 
 
 with st.sidebar:
-    # st.markdown("---")
     if st.button("Reset and Start over", use_container_width=True): 
         for key in list(st.session_state.keys()):
             del st.session_state[key]
@@ -59,10 +56,9 @@ def render_sidebar_progress():
 
     with st.container(key="page_title"):
         st.title("Answer the following Interview Prep Questions", text_alignment="center")   
-        # add progress bar here 
 
 
-def check_prereqs():    # going to check for required data 
+def check_prereqs():  
     required = {"role", "level", "skills"}
     
     for field in required:
@@ -73,7 +69,6 @@ def check_prereqs():    # going to check for required data
                 st.switch_page("1_information_input.py")
     
 def get_user_information():
-    # from existing data of information input page   
     st.session_state.user_information = {
         "role": st.session_state.get("role", ""),
         "level": st.session_state.get("level", ""),
@@ -86,9 +81,6 @@ def get_user_information():
     return st.session_state.user_information
 
 def generate_interview_question() -> dict:
-    # call gem api to get the dictionary of of all 3 questions
-    
-    # error handling incase api fails
     try: 
         user_info = get_user_information()
         questions = gem.get_llm_questions(user_info) 
@@ -102,7 +94,6 @@ def generate_interview_question() -> dict:
 def load_questions():
     with st.spinner("Generating your personalized interview questions..."):
         st.session_state.interview_question_dict = generate_interview_question()
-# func to get the total questions incase it changes over time (less magic numbers)
 
 def get_total_questions():
     return len(st.session_state.interview_question_dict)
@@ -111,8 +102,6 @@ def check_question_index():
     return st.session_state.question_index <=3
 
 def get_current_question():
-    # return a question from the dictionary based
-    # e.i st.question_dict[f"question {st.session_state.question_index}"]
     current_index = st.session_state.question_index
     question_key = f"question_{current_index}"
     
@@ -147,17 +136,16 @@ def render_question_form():
     answer_key = f"answer_{current_q_index}"
     if current_q_index not in st.session_state.visited_questions:
         st.session_state.visited_questions.append(current_q_index)
-    # st.write(current_q_key)
-    existing_answer = st.session_state.answer_dict.get(answer_key, "") # get the existing answer for current question otherwise return ""
+    existing_answer = st.session_state.answer_dict.get(answer_key, "") 
     
     if st.session_state.show_success:
-        st.success(f"Answer {st.session_state.question_index} Saved!") # the number should be lagging 1 behind
+        st.success(f"Answer {st.session_state.question_index} Saved!") 
         st.session_state.show_success = False
     
     st.markdown(f"### Question {current_q_index}")
     st.write(question)
     st.write("")
-    with st.form(key=f"user_answer_question_{st.session_state.question_index}", enter_to_submit=True):  # each form has own form
+    with st.form(key=f"user_answer_question_{st.session_state.question_index}", enter_to_submit=True): 
         answer = st.text_area(
             "Your answer:", 
             value = existing_answer, # the place holder value is the existsing answer for the current question
@@ -186,7 +174,6 @@ def render_question_form():
         with col3:
             next_btn = st.form_submit_button(
                 "Next →" if current_q_index < get_total_questions() else "Finish",
-                # disabled = (current_q_index == 3), # cannot go next if already on the last question
                 type="primary",
                 use_container_width=True
             )
