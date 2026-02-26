@@ -28,15 +28,12 @@ This app uses the Google Gemini API. Google has a free tier which includes:
 
 ## Usage
 **1. Landing page: press Begin**
-<img width="1913" height="993" alt="image" src="https://github.com/user-attachments/assets/4bc3c632-e035-43be-ad42-8bd9d2d1045f" />
+<img width="1797" height="981" alt="image" src="https://github.com/user-attachments/assets/303da5c5-b820-4c4c-b8e3-48ff410b5467" />
+**
 **2. Profile Setup: Enter the role you want to prepare for**
-<img width="1892" height="940" alt="image" src="https://github.com/user-attachments/assets/7add0592-5a89-4149-be13-db25f94b2b2d" />
-<img width="1915" height="996" alt="image" src="https://github.com/user-attachments/assets/a9e92b15-7014-49ea-be35-9e4fe6fa4ea4" />
-**3. Answer 3 AI-Generated questions**
-<img width="1917" height="994" alt="image" src="https://github.com/user-attachments/assets/bcb7e500-767a-4fea-8e1e-87f80c1f474d" />
-**4. Recieve Feeback for your answers**
-<img width="1631" height="992" alt="image" src="https://github.com/user-attachments/assets/62a029e9-e395-41f1-8be2-574e865aca3a" />
-
+<img width="1914" height="986" alt="image" src="https://github.com/user-attachments/assets/84b87012-e0f9-458e-89e8-3f092b8dbac4" />
+<img width="1917" height="999" alt="image" src="https://github.com/user-attachments/assets/4daafbfb-3482-45f2-ad55-44ae4cc7ae83" />
+**3. Recieve 3 AI-Generated questions**
 
 
 
