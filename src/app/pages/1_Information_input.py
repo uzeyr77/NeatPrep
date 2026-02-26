@@ -1,5 +1,6 @@
 import streamlit as st
 
+# Custom CSS with purple theme
 st.markdown("""
 <style>
     [data-testid="stForm"] {
@@ -10,15 +11,15 @@ st.markdown("""
     }
     
     .main-header {
-        background: linear-gradient(135deg, rgba(52, 178, 123, 0.1) 20%, rgba(25, 120, 79, 0.1) 100%);
-        border: 1px solid ;
+        background: linear-gradient(135deg, rgba(192, 132, 252, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+        border: 1px solid #c084fc;
         border-radius: 12px;
         padding: 2rem;
         margin-bottom: 2rem;
     }
     
     [data-testid="stForm"] label {
-        color: #34b27b !important;
+        color: #c084fc !important;
         font-weight: 600;
     }
     
@@ -28,7 +29,7 @@ st.markdown("""
         font-size: 1.1rem;
         font-weight: 600;
         border-radius: 8px;
-        background: #34b27b !important;
+        background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%);
         border: none;
         color: white;
         transition: transform 0.2s, box-shadow 0.2s;
@@ -36,8 +37,7 @@ st.markdown("""
     
     .stButton > button[kind="formSubmit"]:hover {
         transform: scale(1.02);
-        box-shadow: 0 8px 24px rgba(52, 178, 123, 0.4);
-
+        box-shadow: 0 8px 24px rgba(192, 132, 252, 0.4);
     }
 
     input, textarea, [data-baseweb="select"] {
@@ -45,29 +45,29 @@ st.markdown("""
         border: 1px solid #3f3f3f !important;
         background-color: #0f0f0f !important;
     }
+    
     input:focus, textarea:focus {
-        border-color: #34b27b !important;
-        box-shadow: 0 0 0 1px #34b27b !important;
+        border-color: #c084fc !important;
+        box-shadow: 0 0 0 1px #c084fc !important;
     }
     
-    [data-baseweb="select"]:focus-within {
-        border-color: #34b27b !important;
+    [data-baseweb="tag"] {
+        background-color: #c084fc !important;
+        color: white !important;
+    }
+    
+    [data-testid="stAlert"] {
+        background-color: rgba(192, 132, 252, 0.1) !important;
+        border-left: 4px solid #c084fc !important;
+    }
+    
+    [data-baseweb="popover"] {
+        background-color: #1f1f1f !important;
     }
     
     [data-testid="stNumberInput"] input {
         text-align: left !important;
     }
-    
-    div[data-baseweb="select"] > div: focus-within {
-        border-color: #34b27b !important;
-        background-color: #0f0f0f !important;
-
-    }
-    [data-baseweb="tag"] {
-        background-color: #34b27b !important;
-        color: white !important;
-    }
-    
 </style>
 """, unsafe_allow_html=True)
 
@@ -99,12 +99,11 @@ def render_title():
     st.markdown("""
     <div class="main-header">
         <h1 style='text-align: center; 
+                   background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%);
                    -webkit-background-clip: text;
-                   -webkit-text-fill-color: white;
+                   -webkit-text-fill-color: transparent;
                    margin-bottom: 0.5rem;
-                   font-size: 2.5rem;
-                   color: white;
-                   '>
+                   font-size: 2.5rem;'>
             Welcome To Your Journey to Acing Your Tech Interviews
         </h1>
         <p style='text-align: center; color: #9ca3af; font-size: 1.2rem; margin: 0;'>

@@ -1,28 +1,7 @@
 import streamlit as st
 from services import ai_client as gem
-st.markdown("""
-<style> 
-    button,
-    .stButton button,
-    div[data-testid="stButton"] > button,
-    button[kind="primary"],
-    form button,
-    button[type="button"] {
-        background: #34b27b !important;
-        background-color: #34b27b !important;
-        color: white !important;
-        border: none !important;
-    }
-    
-    button:hover {
-        background: #2a9d66 !important;
-        background-color: #2a9d66 !important;
-    }
-</style>
-""", unsafe_allow_html=True)
-
 def initialize_session_states():
-
+    #cleaner
     default_values = {
         "question_index": 1,
         "answer_dict": {},
@@ -65,13 +44,13 @@ def render_sidebar_progress():
             
             if is_saved:
                 with st.container(border = True):
-                    st.markdown(f"**Q{i}** is Answered")
+                    st.markdown(f"✅ **Q{i}** is Answered")
             elif is_visited or is_current:
                 with st.container(border=True):
-                    st.markdown(f"**Q{i}** is In Progress")
+                    st.markdown(f"🔵 **Q{i}** is In Progress")
             else:
                 with st.container(border=True):
-                    st.markdown(f"**Q{i}** Pending")
+                    st.markdown(f"⚪ **Q{i}** Pending")
         st.write("")
         st.caption(f"{saved_count} of {total_questions} completed")
 
@@ -219,7 +198,7 @@ def render_question_form():
                     st.rerun()
                 else:
                     st.session_state.feedback_ready = False  # Flag to trigger loading
-                    st.switch_page("pages/3_Results.py")
+                    st.switch_page("pages/3_loading_results.py")
          
 def main():
     # check for user prerequisite info
