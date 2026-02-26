@@ -18,7 +18,7 @@ def initialize_states():
             )
 
 def render_header():
-    st.title("Your Interview Results", anchor=False)
+    st.title("Your Results", anchor=False)
     st.markdown("---")
     st.caption("AI-powered feedback on correctness, clarity, and effectiveness")
     st.write("") 
@@ -45,7 +45,7 @@ def render_feedback():
         feedback = st.session_state.llm_feedback.get(feedback_key, {})
         with st.container():
             st.markdown(f"### Question {current_num}")
-            with st.expander("📝 View Question", expanded=False):
+            with st.expander("View Question", expanded=False):
                 st.write(original_question)
         
         st.write("")
@@ -59,7 +59,7 @@ def render_feedback():
         st.markdown("---")
         st.write("")
         
-        st.markdown("### 💡 Detailed Feedback")
+        st.markdown("### Detailed Feedback")
         
         # Strengths
         if "strengths" in feedback:

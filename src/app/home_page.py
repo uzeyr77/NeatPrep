@@ -13,7 +13,7 @@ st.markdown("""
         font-size: 4rem;
         font-weight: 700;
         text-align: center;
-        background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%);
+        background: #34b27b;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 0.5rem;
@@ -32,7 +32,7 @@ st.markdown("""
         font-size: 1.2rem;
         font-weight: 600;
         border-radius: 12px;
-        background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%);
+        background: #34b27b;
         border: none;
         transition: transform 0.2s;
     }
@@ -57,9 +57,9 @@ st.markdown("""
     }
     
     .process-card:hover {
-        border-color: #c084fc;
+        border-color: #34b27b;
         transform: translateY(-5px);
-        box-shadow: 0 8px 24px rgba(192, 132, 252, 0.2);
+        box-shadow: 0 8px 24px #34b27b;
     }
     
     .process-title {
@@ -145,7 +145,7 @@ st.write("")
 col1, col2, col3 = st.columns([1, 2, 1])
 
 with col2:
-    if st.button("Begin", type="primary", use_container_width=True):
+    if st.button("Begin", use_container_width=True):
         st.switch_page("pages/1_Information_input.py")
 
 st.write("")
