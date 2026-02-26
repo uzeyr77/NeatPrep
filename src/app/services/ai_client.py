@@ -1,12 +1,12 @@
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 from google import genai
 from pydantic import BaseModel
 from services.prompts import QUESTION_GENERATION_PROMPT, FEEDBACK_GENERATION_PROMPT
-import streamlit as st
-# from google.genai import types
 import json
-client = genai.Client(os.getenv("GEMINI_API_KEY"))
+
+load_dotenv()
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 llm_questions: str = ""
 llm_feedback: str = ""
 class InterviewQuestions(BaseModel):
