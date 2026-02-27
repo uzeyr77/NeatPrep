@@ -31,10 +31,12 @@ This app uses the Google Gemini API. Google has a free tier which includes:
 <img width="1917" height="997" alt="image" src="https://github.com/user-attachments/assets/5449db85-e4ff-4335-a4ed-f07548cbc56c" />
 **
 **2. Profile Setup: Enter the role you want to prepare for**
+<img width="1919" height="989" alt="Screenshot 2026-02-26 221724" src="https://github.com/user-attachments/assets/7e100138-f548-47d4-a610-d0ccde8a4047" />
+**3. Prep: Answer 3 AI-Generated questions**
+<img width="1916" height="995" alt="image" src="https://github.com/user-attachments/assets/c27d05c4-449f-4c8f-a105-b723b42e6347" />
+**4. Feedback: Recieve Tailored feedback for eaach question**
+<img width="1914" height="987" alt="image" src="https://github.com/user-attachments/assets/9874643a-8ee3-480e-b16c-94604f618531" />
 
-
-<img width="1917" height="999" alt="image" src="https://github.com/user-attachments/assets/4daafbfb-3482-45f2-ad55-44ae4cc7ae83" />
-**3. Recieve 3 AI-Generated questions**
 
 
 
