@@ -1,7 +1,6 @@
 import streamlit as st
 from services import ai_client as gem
 with st.sidebar:
-    # st.markdown("---")
     if st.button("Reset and Start over", use_container_width=True): 
         for key in list(st.session_state.keys()):
             del st.session_state[key]
