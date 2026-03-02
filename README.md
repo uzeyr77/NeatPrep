@@ -37,6 +37,37 @@ This app uses the Google Gemini API. Google has a free tier which includes:
 **4. Feedback: Recieve Tailored feedback for eaach question**
 <img width="1914" height="987" alt="image" src="https://github.com/user-attachments/assets/9874643a-8ee3-480e-b16c-94604f618531" />
 
+## Setup 
+
+### Prerequisites
+- Python 3.8+
+- Google Gemini API key
+
+### Installation
+1. Clone the repository
+```bash
+git clone https://github.com/uzeyr77/interview-prep-app.git
+cd interview-prep-app
+```
+2. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+3. Set up your API key
+Create a `.env` file in the root directory:
+```
+GEMINI_API_KEY=your_api_key_here
+```
+Or set it as an environment variable:
+```bash
+export GEMINI_API_KEY=your_api_key_here
+```
+4. Run the app
+Running the command below should open the app in your default browser
+```bash
+streamlit run app.py
+```
+
 
 
 
