@@ -1,13 +1,12 @@
 # NeatPrep
-## 1. Project Overview
 NeatPrep AI powered interview preperation tool that generates personalized technical interview questions. These questions are based on the specifications from the user and once answered the AI provides feedback on how they performed. Useful for job seekers to prepare for interviews with role specific questions that focus on real-world scenarios.
 
-## 2. Key Features
+## 1. Key Features
 - Personalized questions generated based on user specifics (e.i role, level, yoe etc.)
 - Detailed AI feedback with strengths, Weaknesses, and Model Answers
 - Clean and intuitive UI built with streamlit
 
-## 3. Stages
+## 2. Stages
 1. Information Collection: The user is promted for details about the position they would like to prepare for. 
 - What is the position?
 - What role exactly?
